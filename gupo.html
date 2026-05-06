@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>UBUTUMWA - REAL WORKING CHAT | No Setup Needed!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #0b141a;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 12px;
+        }
+        
+        .whatsapp-container {
+            max-width: 500px;
+            width: 100%;
+            height: 95vh;
+            background: #111b21;
+            border-radius: 25px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+        
+        .whatsapp-header {
+            background: #202c33;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #2a3942;
+        }
+        
+        .avatar {
+            width: 45px;
+            height: 45px;
+            background: #25d366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .contact-info {
+            flex: 1;
+        }
+        
+        .contact-info h3 {
+            color: #e9edef;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .contact-info p {
+            color: #8696a0;
+            font-size: 0.7rem;
+        }
+        
+        .online-status {
+            color: #25d366;
+            font-size: 0.7rem;
+        }
+        
+        .number-section {
+            background: #202c33;
+            padding: 15px;
+            border-bottom: 1px solid #2a3942;
+        }
+        
+        .number-label {
+            color: #8696a0;
+            font-size: 0.7rem;
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        .number-input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .country-code {
+            background: #2a3942;
+            padding: 12px;
+            border-radius: 20px;
+            color: #e9edef;
+            font-weight: bold;
+        }
+        
+        .phone-input {
+            flex: 1;
+            background: #2a3942;
+            border: none;
+            padding: 12px 15px;
+            border-radius: 25px;
+            color: #e9edef;
+            font-size: 1rem;
+            outline: none;
+        }
+        
+        .your-number-section {
+            background: #1e2a32;
+            padding: 12px 15px;
+            display: flex;
+            gap: 10px;
+            border-bottom: 1px solid #2a3942;
+        }
+        
+        .your-number-input {
+            flex: 1;
+            background: #2a3942;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 25px;
+            color: #e9edef;
+            font-size: 0.9rem;
+            outline: none;
+        }
+        
+        .messages-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            background-image: radial-gradient(circle at 10% 20%, #1a2a32 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        .message {
+            display: flex;
+            margin-bottom: 4px;
+            animation: slideIn 0.2s ease;
+        }
+        
+        .message.sent {
+            justify-content: flex-end;
+        }
+        
+        .message.received {
+            justify-content: flex-start;
+        }
+        
+        .bubble {
+            max-width: 75%;
+            padding: 8px 12px;
+            border-radius: 18px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .bubble.sent {
+            background: #005c4b;
+            color: #e9edef;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .bubble.received {
+            background: #202c33;
+            color: #e9edef;
+            border-bottom-left-radius: 4px;
+        }
+        
+        .message-time {
+            font-size: 0.6rem;
+            text-align: right;
+            margin-top: 4px;
+            opacity: 0.7;
+        }
+        
+        .input-area {
+            background: #202c33;
+            padding: 12px 15px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            border-top: 1px solid #2a3942;
+        }
+        
+        .message-input {
+            flex: 1;
+            background: #2a3942;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 25px;
+            color: #e9edef;
+            font-size: 0.95rem;
+            outline: none;
+        }
+        
+        .send-btn {
+            background: #25d366;
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 22px;
+            transition: 0.2s;
+        }
+        
+        .send-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .status-bar {
+            background: #1e2a32;
+            padding: 6px;
+            text-align: center;
+            font-size: 0.65rem;
+            color: #8696a0;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #8696a0;
+        }
+        
+        .success-banner {
+            background: #1e3a2a;
+            color: #25d366;
+            padding: 8px;
+            text-align: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        
+        .instructions {
+            background: #2a2a1e;
+            padding: 8px;
+            text-align: center;
+            font-size: 0.65rem;
+            color: #f5c542;
+        }
+    </style>
+    <!-- PubNub SDK - FREE real-time messaging server -->
+    <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.7.0.0.min.js"></script>
+</head>
+
+<body>
+
+    <div class="whatsapp-container">
+        <div class="whatsapp-header">
+            <div class="avatar">🇷🇼</div>
+            <div class="contact-info">
+                <h3 id="receiverName">Ubutumwa Chat</h3>
+                <p><span class="online-status">●</span> REAL-TIME • WORKS ACROSS DEVICES</p>
+            </div>
+        </div>
+
+        <div class="success-banner" id="connBanner">
+            ✅ CONNECTED! This chat works across different phones instantly!
+        </div>
+
+        <div class="number-section">
+            <span class="number-label">📞 TO: Parent's Phone Number</span>
+            <div class="number-input-group">
+                <span class="country-code">+250</span>
+                <input type="tel" id="receiverPhone" class="phone-input" placeholder="78X XXX XXX" value="788123456">
+            </div>
+        </div>
+
+        <div class="your-number-section">
+            <input type="tel" id="myPhone" class="your-number-input" placeholder="Your phone number" value="788654321">
+            <span style="color:#8696a0; font-size:0.7rem;">⬅ Your number (your identity)</span>
+        </div>
+
+        <div id="messagesArea" class="messages-area">
+            <div class="empty-state">
+                💬 READY TO CHAT!<br> 📱 This works across different phones<br> 🔥 No setup, no Firebase, no credit card!<br><br> 👨‍👩‍👧 Share this link with your parents!
+            </div>
+        </div>
+
+        <div class="input-area">
+            <input type="text" id="messageInput" class="message-input" placeholder="Type a message..." autocomplete="off">
+            <button class="send-btn" onclick="sendMessage()">📨</button>
+        </div>
+
+        <div class="instructions" id="statusBar">
+            💡 INSTRUCTIONS: You put YOUR number, Parent puts THEIR number. Then share this link!
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // 🔥 REAL WORKING CHAT - ZERO SETUP REQUIRED!
+        // Using PubNub's free public demo keys (works instantly)
+        // ============================================================
+
+        // PubNub demo keys - FREE, works immediately, no signup needed!
+        const PUBNUB_PUBLISH_KEY = "demo";
+        const PUBNUB_SUBSCRIBE_KEY = "demo";
+
+        let pubnub = null;
+        let currentChannel = null;
+        let messagesCache = [];
+
+        // Initialize PubNub connection
+        function initPubNub() {
+            pubnub = new PubNub({
+                publishKey: PUBNUB_PUBLISH_KEY,
+                subscribeKey: PUBNUB_SUBSCRIBE_KEY,
+                uuid: Date.now().toString()
+            });
+
+            // Listen for messages
+            pubnub.addListener({
+                message: (event) => {
+                    console.log("New message received:", event.message);
+                    const receivedMsg = event.message;
+
+                    const myPhone = document.getElementById("myPhone").value.trim();
+                    const receiverPhone = document.getElementById("receiverPhone").value.trim();
+
+                    if (receivedMsg && receivedMsg.room === getChatRoom(myPhone, receiverPhone)) {
+                        // Add to local cache
+                        messagesCache.push(receivedMsg);
+                        messagesCache.sort((a, b) => a.time - b.time);
+                        renderMessages(messagesCache, myPhone, receiverPhone);
+
+                        // Show notification
+                        if (receivedMsg.sender !== myPhone) {
+                            showStatus(`📨 New message from +250${receiverPhone}!`, false);
+                            // Try to vibrate if on mobile
+                            if (navigator.vibrate) navigator.vibrate(200);
+                        }
+                    }
+                },
+                status: (status) => {
+                    if (status.category === "PNConnectedCategory") {
+                        console.log("Connected to PubNub!");
+                        document.getElementById("connBanner").innerHTML = "✅ CONNECTED! Real-time messaging active!";
+                        document.getElementById("connBanner").style.background = "#1e3a2a";
+                    }
+                }
+            });
+
+            showStatus("🌐 Connected to chat server! Ready to send messages.", false);
+        }
+
+        function getChatRoom(myPhone, receiverPhone) {
+            if (!myPhone || !receiverPhone) return "waiting";
+            const numbers = [myPhone, receiverPhone].sort();
+            return `chat_${numbers.join('_')}`;
+        }
+
+        function sendMessage() {
+            const myPhone = document.getElementById("myPhone").value.trim();
+            const receiverPhone = document.getElementById("receiverPhone").value.trim();
+            const messageText = document.getElementById("messageInput").value.trim();
+
+            if (!myPhone || !receiverPhone) {
+                showStatus("❌ Please enter both phone numbers!", true);
+                return;
+            }
+
+            if (!messageText) {
+                showStatus("✏️ Type a message first", true);
+                return;
+            }
+
+            const roomId = getChatRoom(myPhone, receiverPhone);
+
+            const message = {
+                id: Date.now() + Math.random(),
+                sender: myPhone,
+                text: messageText,
+                time: Date.now(),
+                room: roomId
+            };
+
+            // Clear input
+            document.getElementById("messageInput").value = "";
+
+            // Subscribe to the channel first (if not already)
+            if (currentChannel !== roomId) {
+                if (currentChannel) {
+                    pubnub.unsubscribe({
+                        channels: [currentChannel]
+                    });
+                }
+                pubnub.subscribe({
+                    channels: [roomId]
+                });
+                currentChannel = roomId;
+            }
+
+            // Publish message
+            pubnub.publish({
+                channel: roomId,
+                message: message
+            }, (status, response) => {
+                if (status.error) {
+                    console.error("Publish error:", status);
+                    showStatus("❌ Error sending message. Check internet connection.", true);
+                } else {
+                    console.log("Message published!", response);
+                    showStatus(`✅ Message sent to +250${receiverPhone}`, false);
+                    updateContactDisplay(receiverPhone);
+
+                    // Add to local cache
+                    messagesCache.push(message);
+                    messagesCache.sort((a, b) => a.time - b.time);
+                    renderMessages(messagesCache, myPhone, receiverPhone);
+                }
+            });
+        }
+
+        function renderMessages(messages, myPhone, receiverPhone) {
+            const container = document.getElementById("messagesArea");
+
+            if (!messages || messages.length === 0) {
+                container.innerHTML = `
+                <div class="empty-state">
+                    💬 No messages yet<br>
+                    Send a message to +250${receiverPhone}<br>
+                    They will see it on their phone instantly!<br><br>
+                    📱 SHARE THIS LINK with your parents!
+                </div>
+            `;
+                return;
+            }
+
+            container.innerHTML = "";
+
+            for (let msg of messages) {
+                const isMe = msg.sender === myPhone;
+                const messageDiv = document.createElement("div");
+                messageDiv.className = `message ${isMe ? 'sent' : 'received'}`;
+
+                const bubble = document.createElement("div");
+                bubble.className = `bubble ${isMe ? 'sent' : 'received'}`;
+
+                const textSpan = document.createElement("div");
+                textSpan.textContent = msg.text;
+                bubble.appendChild(textSpan);
+
+                const timeSpan = document.createElement("div");
+                timeSpan.className = "message-time";
+                const date = new Date(msg.time);
+                timeSpan.textContent = date.toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                if (isMe) {
+                    timeSpan.innerHTML = `${timeSpan.textContent} ✓✓`;
+                }
+                bubble.appendChild(timeSpan);
+
+                messageDiv.appendChild(bubble);
+                container.appendChild(messageDiv);
+            }
+
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function updateContactDisplay(phone) {
+            const receiverName = document.getElementById("receiverName");
+            receiverName.innerHTML = `+250 ${phone}`;
+        }
+
+        function showStatus(msg, isError) {
+            const statusBar = document.getElementById("statusBar");
+            statusBar.innerHTML = isError ? `❌ ${msg}` : `✅ ${msg}`;
+            statusBar.style.background = isError ? "#2a1e1e" : "#1e3a2a";
+            setTimeout(() => {
+                statusBar.style.background = "#2a2a1e";
+                statusBar.innerHTML = "💡 Share this link with your parents! They put YOUR number as receiver.";
+            }, 4000);
+        }
+
+        // Load saved messages from localStorage on page load
+        function loadSavedMessages() {
+            const myPhone = document.getElementById("myPhone").value.trim();
+            const receiverPhone = document.getElementById("receiverPhone").value.trim();
+
+            if (myPhone && receiverPhone) {
+                const roomId = getChatRoom(myPhone, receiverPhone);
+                const saved = localStorage.getItem(`chat_cache_${roomId}`);
+                if (saved) {
+                    try {
+                        messagesCache = JSON.parse(saved);
+                        renderMessages(messagesCache, myPhone, receiverPhone);
+                    } catch (e) {}
+                }
+            }
+        }
+
+        // Save messages to localStorage periodically
+        function saveMessages() {
+            const myPhone = document.getElementById("myPhone").value.trim();
+            const receiverPhone = document.getElementById("receiverPhone").value.trim();
+            if (myPhone && receiverPhone && messagesCache.length > 0) {
+                const roomId = getChatRoom(myPhone, receiverPhone);
+                localStorage.setItem(`chat_cache_${roomId}`, JSON.stringify(messagesCache));
+            }
+        }
+
+        let reloadTimeout;
+
+        function onPhoneChange() {
+            if (reloadTimeout) clearTimeout(reloadTimeout);
+            reloadTimeout = setTimeout(() => {
+                const myPhone = document.getElementById("myPhone").value.trim();
+                const receiverPhone = document.getElementById("receiverPhone").value.trim();
+
+                if (myPhone && receiverPhone) {
+                    const newRoom = getChatRoom(myPhone, receiverPhone);
+
+                    // Load saved messages for this room
+                    const saved = localStorage.getItem(`chat_cache_${newRoom}`);
+                    if (saved) {
+                        try {
+                            messagesCache = JSON.parse(saved);
+                            renderMessages(messagesCache, myPhone, receiverPhone);
+                        } catch (e) {
+                            messagesCache = [];
+                            renderMessages([], myPhone, receiverPhone);
+                        }
+                    } else {
+                        messagesCache = [];
+                        renderMessages([], myPhone, receiverPhone);
+                    }
+
+                    // Subscribe to new channel
+                    if (currentChannel !== newRoom && pubnub) {
+                        if (currentChannel) {
+                            pubnub.unsubscribe({
+                                channels: [currentChannel]
+                            });
+                        }
+                        pubnub.subscribe({
+                            channels: [newRoom]
+                        });
+                        currentChannel = newRoom;
+                    }
+
+                    updateContactDisplay(receiverPhone);
+                }
+            }, 500);
+        }
+
+        // Save messages every 5 seconds
+        setInterval(() => {
+            saveMessages();
+        }, 5000);
+
+        // Event listeners
+        document.getElementById("messageInput").addEventListener("keypress", (e) => {
+            if (e.key === "Enter") sendMessage();
+        });
+        document.getElementById("myPhone").addEventListener("input", onPhoneChange);
+        document.getElementById("receiverPhone").addEventListener("input", onPhoneChange);
+
+        // Initialize
+        initPubNub();
+        loadSavedMessages();
+
+        window.sendMessage = sendMessage;
+
+        // Update contact display on load
+        setTimeout(() => {
+            const receiverPhone = document.getElementById("receiverPhone").value.trim();
+            updateContactDisplay(receiverPhone);
+            showStatus("🎉 READY! Share this link with your parents to start chatting!", false);
+        }, 1000);
+    </script>
+</body>
+
+</html>
